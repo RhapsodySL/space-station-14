@@ -1,4 +1,5 @@
 using Content.Server.Chemistry.Components;
+using Content.Shared._Starlight.Medical.Items.Components;
 using Content.Shared._Starlight.Plumbing.Components;
 using Content.Shared.Chemistry;
 using Content.Shared.FixedPoint;
@@ -29,6 +30,17 @@ namespace Content.Server.Chemistry.EntitySystems
                     return;
             }
 
+            ClickSound(chemMaster);
+        }
+
+        private void OnSetPatchTypeMessage(Entity<ChemMasterComponent> chemMaster, ref ChemMasterSetPatchTypeMessage message)
+        {
+            // Ensure valid patch type. There are patch sprites selectable, 0-based.
+            if (message.PatchType > SharedChemMaster.PatchTypes - 1)
+                return;
+
+            chemMaster.Comp.PatchType = message.PatchType;
+            UpdateUiState(chemMaster);
             ClickSound(chemMaster);
         }
 
@@ -70,6 +82,10 @@ namespace Content.Server.Chemistry.EntitySystems
                 _solutionContainerSystem.EnsureSolution(item, SharedChemMaster.PatchSolutionName, out var itemSolution); // Starlight
                 _solutionContainerSystem.SetCapacity(itemSolution, message.Dosage); // Starlight
                 _solutionContainerSystem.TryAddSolution(itemSolution, withdrawal.SplitSolution(message.Dosage)); // Starlight
+
+                var patch = EnsureComp<PatchComponent>(item);
+                patch.PatchType = chemMaster.Comp.PatchType;
+                Dirty(item, patch);
             }
 
             UpdateUiState(chemMaster);

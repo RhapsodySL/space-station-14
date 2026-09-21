@@ -6,7 +6,8 @@
   abstract: true
   components:
   - type: Sprite
-    state: bandaid
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid1
   - type: Solution
     id: patch
     solution:
@@ -15,6 +16,7 @@
     size: Tiny
   - type: Appearance
   - type: Patch
+    patchType: 0
   - type: Tag
     tags:
       - Patch
@@ -31,7 +33,10 @@
   parent: BasePatch
   components:
   - type: Sprite
-    state: bandaid-brute
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid7
+  - type: Patch
+    patchType: 6
   - type: Solution
     id: patch
     solution:
@@ -46,7 +51,10 @@
   parent: BasePatch
   components:
   - type: Sprite
-    state: bandaid-burn-small
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid3
+  - type: Patch
+    patchType: 2
   - type: Solution
     id: patch
     solution:
@@ -61,7 +69,10 @@
   parent: BasePatch
   components:
   - type: Sprite
-    state: bandaid-burn
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid3
+  - type: Patch
+    patchType: 2
   - type: Solution
     id: patch
     solution:
@@ -76,7 +87,10 @@
   parent: BasePatch
   components:
   - type: Sprite
-    state: bandaid-med
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid2
+  - type: Patch
+    patchType: 1
   - type: Solution
     id: patch
     solution:
@@ -93,7 +107,10 @@
   parent: BasePatch
   components:
   - type: Sprite
-    state: bandaid-clown
+    sprite: _Starlight/Objects/Specific/Chemistry/patch.rsi
+    state: bandaid23
+  - type: Patch
+    patchType: 22
   - type: Solution
     id: patch
     solution:

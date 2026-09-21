@@ -31,8 +31,12 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
     public event Action? OnToggleValveButtonPressed;
     public readonly Button[] PillTypeButtons;
     public readonly Button[] PillTypeButtonsClassic;
+    public readonly Button[] PatchTypeButtons;
+    public readonly Button[] PatchTypeButtonsClassic;
 
     private const string PillsRsiPath = "/Textures/Objects/Specific/Chemistry/pills.rsi";
+    private const string PatchesRsiPath = "/Textures/_Starlight/Objects/Specific/Chemistry/patch.rsi";
+    private const string PatchTooltipPrefix = "chem-master-window-patch-type-";
 
     private ChemMasterBoundUserInterfaceState? _lastState;
     private static bool _classicMode; // Static since if you selected it, you probably want this. Dunno why though.
@@ -82,8 +86,10 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
         IoCManager.InjectDependencies(this);
         var sprite = _entityManager.System<SpriteSystem>();
 
-        PillTypeButtons = BuildPillTypeButtons(Grid, sprite);
-        PillTypeButtonsClassic = BuildPillTypeButtons(GridClassic, sprite);
+        PillTypeButtons = BuildTypeButtons(Grid, sprite, PillsRsiPath, "pill", (int) SharedChemMaster.PillTypes, [9], [10]);
+        PillTypeButtonsClassic = BuildTypeButtons(GridClassic, sprite, PillsRsiPath, "pill", (int) SharedChemMaster.PillTypes, [9], [10]);
+        PatchTypeButtons = BuildTypeButtons(PatchGrid, sprite, PatchesRsiPath, "bandaid", (int) SharedChemMaster.PatchTypes, [9], [20], PatchTooltipPrefix);
+        PatchTypeButtonsClassic = BuildTypeButtons(PatchGridClassic, sprite, PatchesRsiPath, "bandaid", (int) SharedChemMaster.PatchTypes, [9], [20], PatchTooltipPrefix);
 
         PillDosage.InitDefaultButtons();
         PillNumber.InitDefaultButtons();
@@ -240,21 +246,28 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
     }
 
     /// <summary>
-    /// Builds the pill type selector for one layout.
+    /// Builds a sprite type selector (pills, patches) for one layout.
     /// </summary>
-    private static Button[] BuildPillTypeButtons(GridContainer grid, SpriteSystem sprite)
+    private static Button[] BuildTypeButtons(
+        GridContainer grid,
+        SpriteSystem sprite,
+        string rsiPath,
+        string statePrefix,
+        int count,
+        int[] openLeft,
+        int[] openRight,
+        string? tooltipPrefix = null)
     {
-        const int pillTypeCount = 20;
-        var resourcePath = new ResPath(PillsRsiPath);
-        var pillTypeGroup = new ButtonGroup();
-        var buttons = new Button[pillTypeCount];
+        var resourcePath = new ResPath(rsiPath);
+        var typeGroup = new ButtonGroup();
+        var buttons = new Button[count];
 
-        for (uint i = 0; i < buttons.Length; i++)
+        for (var i = 0; i < buttons.Length; i++)
         {
             var styleBase = StyleClass.ButtonOpenBoth;
-            if (i == 9)
+            if (openLeft.Contains(i))
                 styleBase = StyleClass.ButtonOpenLeft;
-            else if (i == 10)
+            else if (openRight.Contains(i))
                 styleBase = StyleClass.ButtonOpenRight;
 
             buttons[i] = new Button
@@ -262,18 +275,19 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
                 Access = AccessLevel.Public,
                 StyleClasses = { styleBase },
                 MaxSize = new Vector2(42, 28),
-                Group = pillTypeGroup,
+                Group = typeGroup,
+                ToolTip = tooltipPrefix is null ? null : Loc.GetString(tooltipPrefix + (i + 1) + "-tooltip"),
             };
 
-            var specifier = new SpriteSpecifier.Rsi(resourcePath, "pill" + (i + 1));
-            var pillTypeTexture = new TextureRect
+            var specifier = new SpriteSpecifier.Rsi(resourcePath, statePrefix + (i + 1));
+            var typeTexture = new TextureRect
             {
                 Texture = sprite.Frame0(specifier),
                 TextureScale = new Vector2(1.75f, 1.75f),
                 Stretch = TextureRect.StretchMode.KeepCentered,
             };
 
-            buttons[i].AddChild(pillTypeTexture);
+            buttons[i].AddChild(typeTexture);
             grid.AddChild(buttons[i]);
         }
 
@@ -549,6 +563,12 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
         CreatePatchButton.ToolTip = !CreatePatchButton.Disabled ? null : patchFull ? Loc.GetString("chem-master-window-create-patch-full-tooltip") : Loc.GetString("chem-master-window-create-patch-tooltip");
         CreatePatchButtonClassic.ToolTip = !CreatePatchButtonClassic.Disabled ? null : patchFull ? Loc.GetString("chem-master-window-create-patch-full-tooltip") : Loc.GetString("chem-master-window-create-patch-tooltip");
 
+        // Sprite selectors only show for their matching output container.
+        PillTypeRow.Visible = castState.OutputContainerInfo?.PillEntities != null;
+        PillTypeRowClassic.Visible = castState.OutputContainerInfo?.PillEntities != null;
+        PatchTypeRow.Visible = castState.OutputContainerInfo?.PatchEntities != null;
+        PatchTypeRowClassic.Visible = castState.OutputContainerInfo?.PatchEntities != null;
+
         var valveText = Loc.GetString(castState.ValveOpen
             ? "chem-master-window-valve-open"
             : "chem-master-window-valve-closed");
@@ -578,6 +598,8 @@ public sealed partial class ModernChemMasterWindow : FancyWindow
         PatchDosage.Value = (int) Math.Min(outputVolume, castState.PatchDosageLimit);
         PillTypeButtons[castState.SelectedPillType].Pressed = true;
         PillTypeButtonsClassic[castState.SelectedPillType].Pressed = true;
+        PatchTypeButtons[castState.SelectedPatchType].Pressed = true;
+        PatchTypeButtonsClassic[castState.SelectedPatchType].Pressed = true;
 
         PillNumber.IsValid = x => x >= 0 && x <= itemNumberMax;
         PillDosage.IsValid = x => x > 0 && x <= castState.PillDosageLimit;

@@ -4,6 +4,22 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Chemistry
 {
+    public sealed partial class SharedChemMaster
+    {
+        public const uint PatchTypes = 23;
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class ChemMasterSetPatchTypeMessage : BoundUserInterfaceMessage
+    {
+        public readonly uint PatchType;
+
+        public ChemMasterSetPatchTypeMessage(uint patchType)
+        {
+            PatchType = patchType;
+        }
+    }
+
     [Serializable, NetSerializable]
     public sealed class ChemMasterCreatePatchesMessage : BoundUserInterfaceMessage
     {
@@ -61,6 +77,8 @@ namespace Content.Shared.Chemistry
         public readonly uint PatchDosageLimit;
 
         public readonly bool ValveOpen;
+
+        public readonly uint SelectedPatchType;
     }
 
     /// TRIESTE SPECIFIC

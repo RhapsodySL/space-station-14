@@ -2,7 +2,7 @@
                 xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
-                MinSize="820 550"
+                 MinSize="820 580"
                 Title="{Loc 'chem-master-bound-user-interface-title'}">
 
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
@@ -191,10 +191,16 @@
                             <LineEdit Name="LabelLineEdit" SetWidth="455"/>
                         </BoxContainer>
 
-                        <BoxContainer Orientation="Horizontal">
+                        <BoxContainer Orientation="Horizontal" Name="PillTypeRow">
                             <Label Text="{Loc 'chem-master-window-pill-type-label'}"/>
                             <Control HorizontalExpand="True" MinSize="50 0"/>
                             <GridContainer Name="Grid" Columns="10"/>
+                        </BoxContainer>
+
+                        <BoxContainer Orientation="Horizontal" Name="PatchTypeRow">
+                            <Label Text="{Loc 'chem-master-window-patch-type-label'}"/>
+                            <Control HorizontalExpand="True" MinSize="50 0"/>
+                            <GridContainer Name="PatchGrid" Columns="10"/>
                         </BoxContainer>
 
                         <BoxContainer Orientation="Horizontal">
@@ -353,10 +359,16 @@
                             <LineEdit Name="LabelLineEditClassic" SetWidth="455"/>
                         </BoxContainer>
 
-                        <BoxContainer Orientation="Horizontal">
+                        <BoxContainer Orientation="Horizontal" Name="PillTypeRowClassic">
                             <Label Text="{Loc 'chem-master-window-pill-type-label'}"/>
                             <Control HorizontalExpand="True" MinSize="50 0"/>
                             <GridContainer Name="GridClassic" Columns="10"/>
+                        </BoxContainer>
+
+                        <BoxContainer Orientation="Horizontal" Name="PatchTypeRowClassic">
+                            <Label Text="{Loc 'chem-master-window-patch-type-label'}"/>
+                            <Control HorizontalExpand="True" MinSize="50 0"/>
+                            <GridContainer Name="PatchGridClassic" Columns="10"/>
                         </BoxContainer>
 
                         <BoxContainer Orientation="Horizontal">

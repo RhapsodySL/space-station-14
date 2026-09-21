@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"license": "CC-BY-SA-3.0",
-    "copyright": "Bandaid's taked from Paradise Station",
+	"copyright": "Sprites taken from Paradise Station, edited by .rhapsody (Discord)",
 	"size": {
 		"x": 32,
 		"y": 32
@@ -24,6 +24,57 @@
 		},
 		{
 			"name": "bandaid6"
+		},
+		{
+			"name": "bandaid7"
+		},
+		{
+			"name": "bandaid8"
+		},
+		{
+			"name": "bandaid9"
+		},
+		{
+			"name": "bandaid10"
+		},
+		{
+			"name": "bandaid11"
+		},
+		{
+			"name": "bandaid12"
+		},
+		{
+			"name": "bandaid13"
+		},
+		{
+			"name": "bandaid14"
+		},
+		{
+			"name": "bandaid15"
+		},
+		{
+			"name": "bandaid16"
+		},
+		{
+			"name": "bandaid17"
+		},
+		{
+			"name": "bandaid18"
+		},
+		{
+			"name": "bandaid19"
+		},
+		{
+			"name": "bandaid20"
+		},
+		{
+			"name": "bandaid21"
+		},
+		{
+			"name": "bandaid22"
+		},
+		{
+			"name": "bandaid23"
 		}
-    ]
+	]
 }

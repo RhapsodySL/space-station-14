@@ -15,5 +15,8 @@ namespace Content.Server.Chemistry.Components
         /// </summary>
         [DataField]
         public ChemMasterReagentAmount TransferAmount = ChemMasterReagentAmount.U5;
+
+        [DataField("patchType"), ViewVariables(VVAccess.ReadWrite)]
+        public uint PatchType = 0;
     }
 }

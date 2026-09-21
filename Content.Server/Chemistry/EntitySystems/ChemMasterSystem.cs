@@ -61,6 +61,7 @@ namespace Content.Server.Chemistry.EntitySystems
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterSetModeMessage>(OnSetModeMessage);
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterSortingTypeCycleMessage>(OnCycleSortingTypeMessage);
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterSetPillTypeMessage>(OnSetPillTypeMessage);
+            SubscribeLocalEvent<ChemMasterComponent, ChemMasterSetPatchTypeMessage>(OnSetPatchTypeMessage); // Starlight
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterReagentAmountButtonMessage>(OnReagentButtonMessage);
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterReagentCustomAmountButtonMessage>(OnCustomReagentButtonMessage); // Starlight
             SubscribeLocalEvent<ChemMasterComponent, ChemMasterCreatePillsMessage>(OnCreatePillsMessage);
@@ -91,7 +92,7 @@ namespace Content.Server.Chemistry.EntitySystems
             var valveOpen = TryComp<PlumbingOutletComponent>(owner, out var plumbingOutlet) && plumbingOutlet.Enabled; // Starlight-edit: Plumbing valve
             var state = new ChemMasterBoundUserInterfaceState(
                 chemMaster.Mode, chemMaster.SortingType, BuildInputContainerInfo(inputContainer), BuildOutputContainerInfo(outputContainer),
-                bufferReagents, bufferCurrentVolume, chemMaster.PillType, chemMaster.PillDosageLimit, chemMaster.PatchDosageLimit, updateLabel, chemMaster.DrawSource, valveOpen, chemMaster.TransferAmount); // Starlight-edit - add patch limit, valveOpen
+                bufferReagents, bufferCurrentVolume, chemMaster.PillType, chemMaster.PillDosageLimit, chemMaster.PatchDosageLimit, updateLabel, chemMaster.DrawSource, valveOpen, chemMaster.TransferAmount, chemMaster.PatchType); // Starlight-edit - add patch limit, valveOpen, patch type
 
             _userInterfaceSystem.SetUiState(owner, ChemMasterUiKey.Key, state);
         }

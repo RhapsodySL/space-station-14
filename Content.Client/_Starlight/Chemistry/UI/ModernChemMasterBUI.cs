@@ -95,6 +95,13 @@ public sealed class ModernChemMasterBui(EntityUid owner, Enum uiKey) : BoundUser
             _window.PillTypeButtonsClassic[i].OnPressed += _ => SendMessage(new ChemMasterSetPillTypeMessage(pillType));
         }
 
+        for (uint i = 0; i < _window.PatchTypeButtons.Length; i++)
+        {
+            var patchType = i;
+            _window.PatchTypeButtons[i].OnPressed += _ => SendMessage(new ChemMasterSetPatchTypeMessage(patchType));
+            _window.PatchTypeButtonsClassic[i].OnPressed += _ => SendMessage(new ChemMasterSetPatchTypeMessage(patchType));
+        }
+
         _window.OnReagentButtonPressed += (_, button) => SendMessage(new ChemMasterReagentAmountButtonMessage(button.Id, button.Amount, button.IsBuffer));
         _window.OnCustomReagentButtonPressed += (_, id, amount, isBuffer) => SendMessage(new ChemMasterReagentCustomAmountButtonMessage(id, amount, isBuffer));
 
